@@ -16,34 +16,26 @@ const queryClient = new QueryClient();
 const App = () => {
   const [prankActive, setPrankActive] = useState<boolean | null>(null);
 
-  const checkPrankStatus = async () => {
-    try {
-      // Check if file exists in public folder
-      // Add timestamp to prevent caching
-      const response = await fetch(`/nicolemessage.txt?t=${new Date().getTime()}`, {
-        method: 'HEAD',
-        cache: 'no-store'
-      });
-
-      if (response.ok) {
-        setPrankActive(true);
-      } else {
-        setPrankActive(false);
-      }
-    } catch (e) {
-      setPrankActive(false);
-    }
-  };
-
+  // Check local storage on mount
   useEffect(() => {
-    checkPrankStatus();
+    const isDismissed = localStorage.getItem('prank_dismissed');
+    if (isDismissed === 'true') {
+      setPrankActive(false);
+    } else {
+      setPrankActive(true);
+    }
   }, []);
 
+  const handleUnlock = () => {
+    localStorage.setItem('prank_dismissed', 'true');
+    setPrankActive(false);
+  };
+
   if (prankActive === true) {
-    return <NicolePrank onRetry={checkPrankStatus} />;
+    return <NicolePrank onUnlock={handleUnlock} />;
   }
 
-  // Brief loading state while checking file
+  // Brief loading state while checking
   if (prankActive === null) {
     return null;
   }

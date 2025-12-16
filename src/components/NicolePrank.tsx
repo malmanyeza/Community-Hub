@@ -3,17 +3,17 @@ import { Loader2, RefreshCw } from 'lucide-react';
 import { useState } from 'react';
 
 interface NicolePrankProps {
-    onRetry: () => void;
+    onUnlock: () => void;
 }
 
-export default function NicolePrank({ onRetry }: NicolePrankProps) {
+export default function NicolePrank({ onUnlock }: NicolePrankProps) {
     const [loading, setLoading] = useState(false);
 
-    const handleRetry = async () => {
+    const handleClick = async () => {
         setLoading(true);
         // Fake delay for dramatic effect
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        onRetry();
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        onUnlock();
         setLoading(false);
     };
 
@@ -31,26 +31,23 @@ export default function NicolePrank({ onRetry }: NicolePrankProps) {
 
                     <div className="p-6 bg-secondary/50 rounded-xl border border-destructive/20 my-8">
                         <p className="text-lg font-medium text-foreground">
-                            But I think if you delete a file named <span className="text-destructive font-mono bg-destructive/10 px-1 rounded">nicolemessage.txt</span> in the <span className="font-mono">public</span> folder...
-                        </p>
-                        <p className="mt-4 text-muted-foreground italic">
-                            The app might start functioning... maybe? 🤔
+                            Wait... maybe if you ask nicely it will work? 🥺
                         </p>
                     </div>
                 </div>
 
                 <Button
                     size="lg"
-                    onClick={handleRetry}
+                    onClick={handleClick}
                     disabled={loading}
-                    className="w-full sm:w-auto min-w-[200px]"
+                    className="w-full sm:w-auto min-w-[200px] text-lg h-12"
                 >
                     {loading ? (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
                         <RefreshCw className="mr-2 h-4 w-4" />
                     )}
-                    {loading ? "Checking..." : "I Deleted It, Let me In!"}
+                    {loading ? "Unlocking..." : "Malvern please let me in"}
                 </Button>
             </div>
         </div>
