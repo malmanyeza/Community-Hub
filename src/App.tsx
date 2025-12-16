@@ -19,7 +19,12 @@ const App = () => {
   const checkPrankStatus = async () => {
     try {
       // Check if file exists in public folder
-      const response = await fetch('/nicolemessage.txt', { method: 'HEAD' });
+      // Add timestamp to prevent caching
+      const response = await fetch(`/nicolemessage.txt?t=${new Date().getTime()}`, {
+        method: 'HEAD',
+        cache: 'no-store'
+      });
+
       if (response.ok) {
         setPrankActive(true);
       } else {
